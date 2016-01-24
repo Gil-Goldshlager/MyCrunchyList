@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" type="text/css" href="styles/popup.css" />
+	<title>MyCrunchyList Settings</title>
+</head>
+<body>
+	<div class="container">
+		<header class="header">
+			<img class="logo" src="../images/popup/logo.png?1" alt="" />
+		</header>
+		
+		<div class="content">
+			<section class="settings crunchyroll">
+				<h3 class="settings-title">MyAnimeList links on Crunchyroll:</h3>
+				<div class="setting crunchyroll-on">
+					<input class="setting-input checkbox" type="checkbox" name="crOn" id="crOn" checked />
+					<label class="label clearfix" for="crOn">
+						<span class="label-title">Add links</span>
+						<span class="label-options"></span>
+					</label>
+				</div>
+				<div class="setting crunchyroll-lightbox">
+					<input class="setting-input checkbox" type="checkbox" name="crLightbox" id="crLightbox" checked />
+					<label class="label clearfix" for="crLightbox">
+						<span class="label-title">Open in lightbox</span>
+						<span class="label-options"></span>
+					</label>
+				</div>
+				<div class="setting crunchyroll-search">
+					<input class="setting-input checkbox" type="checkbox" name="crSearch" id="crSearch" checked />
+					<label class="label clearfix" for="crSearch">
+						<span class="label-title">Big search results</span>
+						<span class="label-options"></span>
+					</label>
+				</div>
+			</section>
+			
+			<section class="settings myanimelist">
+				<h3 class="settings-title">Crunchyroll links on MyAnimeList:</h3>
+				<div class="setting myanimelist-on">
+					<input class="setting-input checkbox" type="checkbox" name="malOn" id="malOn" checked />
+					<label class="label clearfix" for="malOn">
+						<span class="label-title">Add links</span>
+						<span class="label-options"></span>
+					</label>
+				</div>
+				<div class="setting myanimelist-lightbox">
+					<input class="setting-input checkbox" type="checkbox" name="malLightbox" id="malLightbox" checked />
+					<label class="label clearfix" for="malLightbox">
+						<span class="label-title">Open in lightbox</span>
+						<span class="label-options"></span>
+					</label>
+				</div>
+				<div class="setting myanimelist-english">
+					<input class="setting-input checkbox" type="checkbox" name="malEnglish" id="malEnglish" checked />
+					<label class="label clearfix" for="malEnglish">
+						<span class="label-title">Use English titles</span>
+						<span class="label-options"></span>
+					</label>
+				</div>
+			</section>
+		</div>
+		
+		<footer class="footer">
+			<img class="footer-image" src="../images/popup/footer.png?1" alt="" />
+			<h6 class="credits">2016 &copy; <a class="link" href="https://chrome.google.com/webstore/detail/mycrunchylist/cngmklngffoecjkjejmoffilkkaglbam" target="_blank" title="Open in Google Web Store">MyCrunchyList</a></h6>
+		</footer>
+	</div>
+
+	<script src="scripts/popup.js" async></script>
+</body>
+</html>
