@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "MyCrunchyList",
-	"version": "0.0.0.3",	
+	"version": "0.0.0.4",	
 	"description": "Anime & Manga search between Crunchyroll & MyAnimeList websites. bridging between the two major anime and manga websites.",
 	
 	"icons": {
@@ -12,7 +12,7 @@
 	},
 	
 	"author": "Gil Goldshlager",
-	"homepage_url": "http://myanimelist.net/profile/Gil-G",
+	"homepage_url": "http://mycrunchylist.com",
 	"incognito": "split",
 
 	"background": {

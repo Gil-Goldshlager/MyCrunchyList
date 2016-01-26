@@ -5,6 +5,7 @@
 	titleElem = '.series-title',
 	targetElem = '.wrapper',
 	loadMoreButton = $('a.load-more');
+var watchLinkAdded;
 
 function init(){
 	pageInit = true;
@@ -20,6 +21,7 @@ function init(){
 	page.single = $('#sidebar img.poster');
 	page.singleAnime = $('#source_showview');
 	page.singleManga = $('#source_manga_showview');
+	page.watch = $('#showmedia_video');
 	
 	/* If page isn't supported */
 	checkPage();
@@ -68,6 +70,12 @@ function init(){
 		titleElem = '.text-link';
 	}
 	
+	/* Watch */
+	if(page.watch){
+		$body.classList.add('page-watch');
+		if(!watchLinkAdded && settings.crOn){setWatch();}
+	}
+	
 	/* Single page */
 	if(page.single){
 		$body.classList.add('page-single');
@@ -80,7 +88,7 @@ function init(){
 		
 		if(!singleLinkAdded && settings.crOn){setSingle();}
 		
-	}else if(!listLinksAdded && settings.crOn){
+	}else if(!page.watch && !listLinksAdded && settings.crOn){
 		setLinks();
 	}
 	
@@ -177,6 +185,37 @@ function setSingle(){
 	});
 	
 	container.appendChild($link);
+}
+
+/* MAL watch page link */
+function setWatch(){
+	watchLinkAdded = true;
+	
+	var container = $('.showmedia-submenu');
+	var title = $('.showmedia-header h1 .text-link span') || $('#showmedia_about_episode_num a.text-link');
+	if(title && title.textContent){
+		title = title.textContent.trim();
+	}else{
+		return false;
+	}
+	
+	var $link = document.createElement('a');
+		$link.classList.add('mcl-link');
+		$link.href = 'http://myanimelist.net/anime.php?q='+encodeURIComponent(title);
+		$link.target = '_blank';
+		$link.title = 'Search MyAnimeList for - '+title;
+	var $linkTxtNode = document.createTextNode('MyAnimeList');
+		$link.appendChild($linkTxtNode);
+
+	$link.addEventListener('click',function(e){
+		if(settings.crLightbox && lightboxReady){
+			e.preventDefault();
+				toggleLightbox(this.href);
+			return false;
+		}
+	});
+	
+	container.insertBefore($link, container.firstChild);
 }
 
 
