@@ -188,9 +188,9 @@ function init(){
 function setLinks(){
 	listLinksAdded = true;
 
-	var items = document.querySelectorAll('a.Lightbox_AddEdit:not(.'+itemAddedClass+'), .page-list #list_surround a.List_LightBox:not(.'+itemAddedClass+')');
+	var items = document.querySelectorAll('a.Lightbox_AddEdit:not(.'+itemAddedClass+'), .page-list #list_surround a.List_LightBox:not(.'+itemAddedClass+'), .page-list .list-table .edit a.List_LightBox:not(.'+itemAddedClass+')');
 	if(!items){return false;}
-	
+
 	for(var i=0; i<items.length; i++){
 		var itemType = 'anime';
 		if(page.listManga || items[i].href.indexOf('?go=addmanga') != -1){
@@ -219,6 +219,7 @@ function setLinks(){
 					$('.page-seasonal .title-text a.link-title[href*="/'+itemType+'/'+itemID+'/"]') || 
 					$('.page-category .title-text a.link-title[href*="/'+itemType+'/'+itemID+'/"]') || 
 					$('.page-search a.hoverinfo_trigger[href*="/'+itemType+'/'+itemID+'/"] strong') || 
+					$('.page-list .data.title a.link[href*="/'+itemType+'/'+itemID+'/"]') || 
 					$('.page-list a.animetitle[href*="/'+itemType+'/'+itemID+'/"] span') || 
 					$('a[href*="/'+itemType+'/'+itemID+'/"] strong') || 
 					$('a[href*="/'+itemType+'.php?id='+itemID+'"] strong') || 
