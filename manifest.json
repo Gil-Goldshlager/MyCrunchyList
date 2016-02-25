@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "MyCrunchyList",
-	"version": "0.0.0.6",	
+	"version": "0.0.0.7",	
 	"description": "Anime & Manga search between Crunchyroll & MyAnimeList websites. bridging between the two major anime and manga websites.",
 	
 	"icons": {
