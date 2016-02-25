@@ -17,6 +17,8 @@ function init(){
 	page.listAnime = pageUrl.indexOf('/animelist/') != -1;
 	page.listManga = pageUrl.indexOf('/mangalist/') != -1;
 	
+	page.people = pageUrl.indexOf('/people/') != -1 && $('#horiznav_nav ul li:first-child a.horiznav_active');
+	
 	page.reviews = (pageUrl.indexOf('reviews.php') != -1 || (pageUrl.indexOf('/profile/') != -1 && $('.horiznav_active[href*="/reviews"]'))) && pageUrl.indexOf('?st=mosthelpful') == -1;
 	page.reviewsAnime = (page.reviews && $('#horiznav_nav') && $('a.horiznav_active[href="?t=anime"]')) || (page.reviews && $('small').textContent == '(Anime)');
 	page.reviewsManga = (page.reviews && $('#horiznav_nav') && $('a.horiznav_active[href="?t=manga"]')) || (page.reviews && $('small').textContent == '(Manga)');
@@ -74,6 +76,11 @@ function init(){
 			malType = 'mg';
 		}
 
+	/* People page */
+	if(page.people){
+		$body.classList.add('page-people');
+	}
+	
 	/* Reviews page */
 	if(page.reviews){
 		$body.classList.add('page-reviews');
@@ -208,6 +215,7 @@ function setLinks(){
 		var itemTitle;
 			if(itemID){
 				itemTitleElem = 
+					$('.page-people td > a[href*="/'+itemType+'/'+itemID+'/"]') || 
 					$('.page-home .widget.popular_ranking .ranking-unit a.title[href*="/'+itemType+'/'+itemID+'/"]') || 
 					$('.page-home .widget.upcoming_ranking .ranking-unit a.title[href*="/'+itemType+'/'+itemID+'/"]') || 
 					$('.page-home .widget.airing_ranking .ranking-unit a.title[href*="/'+itemType+'/'+itemID+'/"]') || 
