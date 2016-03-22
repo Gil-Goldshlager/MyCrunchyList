@@ -5,49 +5,49 @@
 
 function init(){
 	pageInit = true;
-	
-	/* 
-		Page type - 
+
+	/*
+		Page type -
 		MyAnimeList doesn't specify a unique class-name or ID to each type of page
 		Yes I spent almost a full day writing this, no thank you what so ever!!!
 	*/
 	page.home = $('body.index');
-	
+
 	page.list = pageUrl.indexOf('/animelist/') != -1 || pageUrl.indexOf('/mangalist/') != -1;
 	page.listAnime = pageUrl.indexOf('/animelist/') != -1;
 	page.listManga = pageUrl.indexOf('/mangalist/') != -1;
-	
+
 	page.people = pageUrl.indexOf('/people/') != -1 && $('#horiznav_nav ul li:first-child a.horiznav_active');
-	
+
 	page.reviews = (pageUrl.indexOf('reviews.php') != -1 || (pageUrl.indexOf('/profile/') != -1 && $('.horiznav_active[href*="/reviews"]'))) && pageUrl.indexOf('?st=mosthelpful') == -1;
 	page.reviewsAnime = (page.reviews && $('#horiznav_nav') && $('a.horiznav_active[href="?t=anime"]')) || (page.reviews && $('small').textContent == '(Anime)');
 	page.reviewsManga = (page.reviews && $('#horiznav_nav') && $('a.horiznav_active[href="?t=manga"]')) || (page.reviews && $('small').textContent == '(Manga)');
 	page.reviewsUser = page.reviews && (pageUrl.indexOf('/profile/') != -1 && $('.horiznav_active[href*="/reviews"]'));
-	
+
 	page.recommendations = (pageUrl.indexOf('recommendations.php') != -1 || (pageUrl.indexOf('/profile/') != -1 && $('.horiznav_active[href*="/recommendations"]'))) && pageUrl.indexOf('?s=userrecs') == -1;
 	page.recommendationsAnime =  page.recommendations && pageUrl.indexOf('t=anime') != -1;
 	page.recommendationsManga = page.recommendations && pageUrl.indexOf('t=manga') != -1;
 	page.recommendationsUser = page.recommendations && (pageUrl.indexOf('/profile/') != -1 && $('.horiznav_active[href*="/recommendations"]'));
-	
+
 	page.top = pageUrl.indexOf('topanime.php') != -1 || pageUrl.indexOf('topmanga.php') != -1;
 	page.topAnime = pageUrl.indexOf('topanime.php') != -1;
 	page.topManga = pageUrl.indexOf('topmanga.php') != -1;
-	
+
 	page.seasonal = pageUrl.indexOf('/season') != -1 && $('body.season');
 	page.watch = pageUrl.indexOf('/watch') != -1 && $('body.watch .watch-anime-list.watch-video');
 	page.stream = pageUrl.indexOf('/watch') != -1 && $('body.watch .watch-anime-list .watch-anime');
-	
+
 	page.category = (pageUrl.indexOf('/anime/') != -1 || pageUrl.indexOf('/manga/') != -1) && $('body.anime-filter');
 	page.categoryAnime = page.category && pageUrl.indexOf('/anime/');
 	page.categoryManga = page.category && pageUrl.indexOf('/manga/');
-	
+
 	page.search = (pageUrl.indexOf('anime.php?q=') != -1 || pageUrl.indexOf('manga.php?q=') != -1) || $('#advancedsearch');
-	
+
 	page.single = (pageUrl.indexOf('/anime/') != -1 || pageUrl.indexOf('/anime.php?id=') != -1 || pageUrl.indexOf('/manga/') != -1 || pageUrl.indexOf('/manga.php?id=') != -1) && ($('#contentWrapper[itemtype*="Product"]') || $('#contentWrapper[itemtype*="TVSeries"]'));
 	page.singleAnime = (page.single && pageUrl.indexOf('/anime/') != -1) || (page.single && pageUrl.indexOf('/anime.php?id=') != -1);
 	page.singleManga = (page.single && pageUrl.indexOf('/manga/') != -1) || (page.single && pageUrl.indexOf('/manga.php?id=') != -1);
 	page.singleWatch = page.single && $('#contentWrapper[itemtype*="TVSeries"]');
-	
+
 	/* If page isn't supported */
 	checkPage();
 	if(!allowedPage){
@@ -56,7 +56,7 @@ function init(){
 	}else{
 		//console.log('We do modify this page.');
 	}
-	
+
 	/* Home page */
 	if(page.home){
 		$body.classList.add('page-home');
@@ -80,7 +80,7 @@ function init(){
 	if(page.people){
 		$body.classList.add('page-people');
 	}
-	
+
 	/* Reviews page */
 	if(page.reviews){
 		$body.classList.add('page-reviews');
@@ -145,7 +145,7 @@ function init(){
 	if(page.stream){
 		$body.classList.add('page-stream');
 	}
-	
+
 	/* Category page */
 	if(page.category){
 		$body.classList.add('page-category');
@@ -165,7 +165,7 @@ function init(){
 		$body.classList.add('page-search');
 		if(settings.crSearch){modifySearchInIframe();}
 	}
-	
+
 	/* Single page */
 	if(page.single){
 		$body.classList.add('page-single');
@@ -182,12 +182,12 @@ function init(){
 		if(page.singleWatch){
 			$body.classList.add('page-single-watch');
 		}
-		
+
 		if(!singleLinkAdded && settings.malOn){setSingle();}
 	}
-	
+
 	if(!listLinksAdded && settings.malOn){setLinks();}
-	
+
 	checkLightbox();
 }
 
@@ -210,41 +210,41 @@ function setLinks(){
 			}else if(page.list){
 				itemID = itemID.split('/edit?')[0].split('/').pop();
 			}
-			
+
 		var itemTitleElem;
 		var itemTitle;
 			if(itemID){
-				itemTitleElem = 
-					$('.page-people td > a[href*="/'+itemType+'/'+itemID+'/"]') || 
-					$('.page-home .widget.popular_ranking .ranking-unit a.title[href*="/'+itemType+'/'+itemID+'/"]') || 
-					$('.page-home .widget.upcoming_ranking .ranking-unit a.title[href*="/'+itemType+'/'+itemID+'/"]') || 
-					$('.page-home .widget.airing_ranking .ranking-unit a.title[href*="/'+itemType+'/'+itemID+'/"]') || 
-					$('.page-home .widget.reviews a[href*="/'+itemType+'/'+itemID+'/"] strong') || 
-					$('.page-home .widget.recommendations a[href*="/'+itemType+'/'+itemID+'/"] strong') || 
-					$('.page-reviews a.hoverinfo_trigger[href*="/'+itemType+'/'+itemID+'/"] strong') || 
-					$('.page-recommendations a[href*="/'+itemType+'/'+itemID+'/"] strong') || 
-					$('.page-top .detail a.hoverinfo_trigger[href*="/'+itemType+'/'+itemID+'/"]') || 
-					$('.page-seasonal .title-text a.link-title[href*="/'+itemType+'/'+itemID+'/"]') || 
-					$('.page-category .title-text a.link-title[href*="/'+itemType+'/'+itemID+'/"]') || 
-					$('.page-search a.hoverinfo_trigger[href*="/'+itemType+'/'+itemID+'/"] strong') || 
-					$('.page-list .data.title a.link[href*="/'+itemType+'/'+itemID+'/"]') || 
-					$('.page-list a.animetitle[href*="/'+itemType+'/'+itemID+'/"] span') || 
-					$('a[href*="/'+itemType+'/'+itemID+'/"] strong') || 
-					$('a[href*="/'+itemType+'.php?id='+itemID+'"] strong') || 
-					$('a.title[href*="/'+itemType+'/'+itemID+'/"] strong') || 
-					$('a.title[href*="/'+itemType+'.php?id='+itemID+'"] strong') || 
-					$('.ranking-list .title .detail a[id="#area'+itemID+'"][href*="/'+itemType+'/'+itemID+'/"]') || 
-					$('.ranking-list .title .detail a[id="#area'+itemID+'"][href*="/'+itemType+'.php?id='+itemID+'"]') || 
-					$('a.title[href*="/'+itemType+'.php?id='+itemID+'"]') || 
+				itemTitleElem =
+					$('.page-people td > a[href*="/'+itemType+'/'+itemID+'/"]') ||
+					$('.page-home .widget.popular_ranking .ranking-unit a.title[href*="/'+itemType+'/'+itemID+'/"]') ||
+					$('.page-home .widget.upcoming_ranking .ranking-unit a.title[href*="/'+itemType+'/'+itemID+'/"]') ||
+					$('.page-home .widget.airing_ranking .ranking-unit a.title[href*="/'+itemType+'/'+itemID+'/"]') ||
+					$('.page-home .widget.reviews a[href*="/'+itemType+'/'+itemID+'/"] strong') ||
+					$('.page-home .widget.recommendations a[href*="/'+itemType+'/'+itemID+'/"] strong') ||
+					$('.page-reviews a.hoverinfo_trigger[href*="/'+itemType+'/'+itemID+'/"] strong') ||
+					$('.page-recommendations a[href*="/'+itemType+'/'+itemID+'/"] strong') ||
+					$('.page-top .detail a.hoverinfo_trigger[href*="/'+itemType+'/'+itemID+'/"]') ||
+					$('.page-seasonal .title-text a.link-title[href*="/'+itemType+'/'+itemID+'/"]') ||
+					$('.page-category .title-text a.link-title[href*="/'+itemType+'/'+itemID+'/"]') ||
+					$('.page-search a.hoverinfo_trigger[href*="/'+itemType+'/'+itemID+'/"] strong') ||
+					$('.page-list .data.title a.link[href*="/'+itemType+'/'+itemID+'/"]') ||
+					$('.page-list a.animetitle[href*="/'+itemType+'/'+itemID+'/"] span') ||
+					$('a[href*="/'+itemType+'/'+itemID+'/"] strong') ||
+					$('a[href*="/'+itemType+'.php?id='+itemID+'"] strong') ||
+					$('a.title[href*="/'+itemType+'/'+itemID+'/"] strong') ||
+					$('a.title[href*="/'+itemType+'.php?id='+itemID+'"] strong') ||
+					$('.ranking-list .title .detail a[id="#area'+itemID+'"][href*="/'+itemType+'/'+itemID+'/"]') ||
+					$('.ranking-list .title .detail a[id="#area'+itemID+'"][href*="/'+itemType+'.php?id='+itemID+'"]') ||
+					$('a.title[href*="/'+itemType+'.php?id='+itemID+'"]') ||
 					$('a[href*="/'+itemType+'/'+itemID+'/"]') ||
-					$('a.title[href*="/'+itemType+'/'+itemID+'/"]') || 
+					$('a.title[href*="/'+itemType+'/'+itemID+'/"]') ||
 					$('a[href*="/'+itemType+'.php?id='+itemID+'"]');
-					
+
 				if(itemTitleElem && itemTitleElem.textContent.length){
 					itemTitle = itemTitleElem.textContent.trim();
 				}
 			}
-			
+
 		if(itemTitle && itemTitle.length){
 			var $link = document.createElement('a');
 				$link.classList.add('mcl-link');
@@ -272,7 +272,7 @@ function setLinks(){
 					return false;
 				}
 			});
-			
+
 			var parent = items[i].parentNode;
 			parent.classList.add('mcl-link-container');
 			if(page.list){
@@ -289,7 +289,7 @@ function setLinks(){
 /* MAL single link */
 function setSingle(){
 	singleLinkAdded = true;
-	
+
 	var container = $('.js-sns-icon-container');
 	var itemTitle = document.querySelector('h1 span[itemprop="name"]').textContent.trim();
 	var itemENtitle;
@@ -303,7 +303,7 @@ function setSingle(){
 	}
 
 	if(!itemTitle){return false;}
-	
+
 	var $link = document.createElement('a');
 		$link.classList.add('icon-social','mcl-link','mcl-link-main');
 		$link.href = 'http://www.crunchyroll.com/search?q='+encodeURIComponent(itemTitle)+'&o='+malType;
@@ -329,7 +329,7 @@ function setSingle(){
 				return false;
 			}
 		});
-	
+
 	container.classList.add('mcl-link-container');
 	container.insertBefore($link, container.firstChild);
 }
@@ -344,7 +344,7 @@ function getENtitle(malURL){
 
 			var itemTitle = data.querySelector('h1 span[itemprop="name"]').textContent.trim();
 			var enTitleElem = data.querySelectorAll('span.dark_text');
-			
+
 			for(var i=0; i<enTitleElem.length; i++){
 				if(enTitleElem[i].textContent.indexOf('English:') != -1){
 					if(enTitleElem[i].nextSibling.textContent.length){
@@ -358,7 +358,7 @@ function getENtitle(malURL){
 			toggleLightbox(crFallbackURL);
 		}
 	}
-	
+
 	xhttp.open('GET', malURL, true);
 	xhttp.send();
 }
@@ -370,7 +370,7 @@ chrome.storage.sync.get(
 		if(settings != results){
 			settings = results;
 		}
-		
+
 		if(!pageInit){
 			init();
 		}
@@ -382,19 +382,28 @@ chrome.storage.sync.get(
 function modifySearchInIframe(){
 	var parentOrigin = location.ancestorOrigins[0],
 		images = document.querySelectorAll('#content img');
-	
+
 	if(parentOrigin && parentOrigin.indexOf('crunchyroll.com') != -1 && page.search && images.length > 1){
 		malSearchModified = true;
 	}else{
 		return false;
 	}
-	
+
 	$body.classList.add('mcl-mal-modify-search');
 
 	/* Enlarge images */
 	for(var i=0; i<images.length; i++){
-		var imgSrc = images[i].src.split('/r/');
+		var imgSrc = images[i].src;
+
+		if(imgSrc.indexOf('/r/') != -1){
+			imgSrc = imgSrc.split('/r/');
 			imgSrc = imgSrc[0]+'/images/'+imgSrc[1].split('/images/')[1];
+		}
+
+		if(imgSrc.indexOf('t.') > 1){
+			imgSrc = imgSrc.replace(/t.(?![\s\S]*t.)/,'.');
+		}
+
 		images[i].setAttribute('data-small',images[i].src);
 		images[i].setAttribute('data-big',imgSrc);
 		images[i].src = imgSrc;
