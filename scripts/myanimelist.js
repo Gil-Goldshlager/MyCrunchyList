@@ -38,8 +38,8 @@ function init(){
 	page.stream = pageUrl.indexOf('/watch') != -1 && $('body.watch .watch-anime-list .watch-anime');
 
 	page.category = (pageUrl.indexOf('/anime/') != -1 || pageUrl.indexOf('/manga/') != -1) && $('body.anime-filter');
-	page.categoryAnime = page.category && pageUrl.indexOf('/anime/');
-	page.categoryManga = page.category && pageUrl.indexOf('/manga/');
+	page.categoryAnime = page.category && pageUrl.indexOf('/anime/') != -1;
+	page.categoryManga = page.category && pageUrl.indexOf('/manga/') != -1;
 
 	page.search = (pageUrl.indexOf('anime.php?q=') != -1 || pageUrl.indexOf('manga.php?q=') != -1) || $('#advancedsearch');
 
@@ -215,6 +215,7 @@ function setLinks(){
 		var itemTitle;
 			if(itemID){
 				itemTitleElem =
+					$('.page-watch .watch-anime-list a.mr4[href*="/'+itemType+'/'+itemID+'/"]') ||
 					$('.page-people td > a[href*="/'+itemType+'/'+itemID+'/"]') ||
 					$('.page-home .widget.popular_ranking .ranking-unit a.title[href*="/'+itemType+'/'+itemID+'/"]') ||
 					$('.page-home .widget.upcoming_ranking .ranking-unit a.title[href*="/'+itemType+'/'+itemID+'/"]') ||
@@ -381,7 +382,7 @@ chrome.storage.sync.get(
 /* Search page modifications in iframe from crunchyrol */
 function modifySearchInIframe(){
 	var parentOrigin = location.ancestorOrigins[0],
-		images = document.querySelectorAll('#content img');
+		images = document.querySelectorAll('#content img[data-src]');
 
 	if(parentOrigin && parentOrigin.indexOf('crunchyroll.com') != -1 && page.search && images.length > 1){
 		malSearchModified = true;
@@ -394,18 +395,27 @@ function modifySearchInIframe(){
 	/* Enlarge images */
 	for(var i=0; i<images.length; i++){
 		var imgSrc = images[i].src;
+		var imgDataSrc = images[i].getAttribute('data-src');
+		var imgOriginalSrc;
 
-		if(imgSrc.indexOf('/r/') != -1){
+		if(imgSrc.indexOf('/r/') != -1 || imgDataSrc.indexOf('/r/') != -1){
+			if(imgSrc.indexOf('spacer.gif') != -1){
+				imgSrc = imgDataSrc;
+			}
 			imgSrc = imgSrc.split('/r/');
 			imgSrc = imgSrc[0]+'/images/'+imgSrc[1].split('/images/')[1];
+
+			if(imgDataSrc.indexOf('/r/') != -1){
+				imgOriginalSrc = imgDataSrc;
+			}else{
+				imgOriginalSrc = imgSrc;
+			}
 		}
 
-		if(imgSrc.indexOf('t.') > 1){
-			imgSrc = imgSrc.replace(/t.(?![\s\S]*t.)/,'.');
-		}
-
-		images[i].setAttribute('data-small',images[i].src);
+		images[i].setAttribute('data-small',imgOriginalSrc);
 		images[i].setAttribute('data-big',imgSrc);
+		images[i].setAttribute('data-src',imgSrc);
+		images[i].setAttribute('data-srcset',imgSrc+' 1x,'+imgSrc+' 2x');
 		images[i].src = imgSrc;
 	}
 }
