@@ -8,7 +8,7 @@ var settings = {
 	'crLightbox': true,
 	'crSearch': true,
 	'malOn': true,
-	'malLightbox': true,
+	//'malLightbox': true,
 	'malEnglish': true
 }
 
@@ -17,7 +17,8 @@ function save(){
 	for(var i=0; i < settingElem.length; i++){
 		var name = settingElem[i].id,
 			val = settingElem[i].checked;
-			
+
+			/*
 			if(name == 'malLightbox'){
 				if(val){
 					malENtitles.disabled = false;
@@ -25,6 +26,7 @@ function save(){
 					malENtitles.disabled = true;
 				}
 			}
+			*/
 		settings[name] = val;
 	}
 
@@ -38,7 +40,8 @@ chrome.storage.sync.get(settings, function(results){
 	for(var i = 0; i < settingElem.length; i++){
 		var name = settingElem[i].id,
 			val = settings[name];
-			
+
+			/*
 			if(name == 'malLightbox'){
 				if(val){
 					malENtitles.disabled = false;
@@ -46,11 +49,12 @@ chrome.storage.sync.get(settings, function(results){
 					malENtitles.disabled = true;
 				}
 			}
-		
+			*/
+
 		settingElem[i].checked = val;
 		settingElem[i].addEventListener('change', save);
 	}
-	
+
 	setTimeout(function(){
 		document.querySelector('body').classList.add('ready');
 	},500);

@@ -31,7 +31,7 @@ body:not(.mcl-hide-links) .mcl-link-container {
 		left: 50%;
 		margin: 10px 0 0 -7px;
 	}
-	
+
 	.your-score .js-top-ranking-your-score-col {
 		.mcl-link {
 			display: none;
@@ -101,7 +101,7 @@ body:not(.mcl-hide-links) .mcl-link-container {
 			}
 		}
 	}
-	
+
 	.mcl-link-main {
 		margin: 0 4px 0 0;
 		vertical-align: top;
@@ -109,7 +109,7 @@ body:not(.mcl-hide-links) .mcl-link-container {
 		-webkit-filter: none;
 		filter: none;
 		opacity: 1;
-		
+
 		&:hover {
 			opacity: 0.7;
 		}
@@ -129,6 +129,7 @@ body:not(.mcl-hide-links) .mcl-link-container {
 /* Search page modifications */
 .mcl-mal-modify-search {
 	#content img {
-		width: 150px;
+		width: 150px !important;
+		height: auto !important;
 	}
 }

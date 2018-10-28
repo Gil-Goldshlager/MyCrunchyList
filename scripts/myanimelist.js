@@ -249,16 +249,17 @@ function setLinks(){
 		if(itemTitle && itemTitle.length){
 			var $link = document.createElement('a');
 				$link.classList.add('mcl-link');
-				$link.href = 'http://www.crunchyroll.com/search?q='+encodeURIComponent(itemTitle)+'&o='+malType;
+				$link.href = 'https://www.crunchyroll.com/search?q='+encodeURIComponent(itemTitle)+'&o='+malType;
 				$link.target = '_blank';
 				$link.title = 'Search Crunchyroll for - '+itemTitle;
-				$link.setAttribute('data-mal-url','http://myanimelist.net/'+itemType+'/'+itemID);
-				$link.setAttribute('data-cr-fallback-url','http://www.crunchyroll.com/search?q='+encodeURIComponent(itemTitle)+'&o='+malType);
+				$link.setAttribute('data-mal-url','https://myanimelist.net/'+itemType+'/'+itemID);
+				$link.setAttribute('data-cr-fallback-url','https://www.crunchyroll.com/search?q='+encodeURIComponent(itemTitle)+'&o='+malType);
 				$link.setAttribute('data-mal-type',malType);
 				$link.setAttribute('data-mal-id',itemID);
 			var $linkTxtNode = document.createTextNode('Crunchyroll');
 				$link.appendChild($linkTxtNode);
 
+/*
 			$link.addEventListener('click',function(e){
 				if(settings.malLightbox && lightboxReady){
 					e.preventDefault();
@@ -273,6 +274,7 @@ function setLinks(){
 					return false;
 				}
 			});
+*/
 
 			var parent = items[i].parentNode;
 			parent.classList.add('mcl-link-container');
@@ -307,10 +309,10 @@ function setSingle(){
 
 	var $link = document.createElement('a');
 		$link.classList.add('icon-social','mcl-link','mcl-link-main');
-		$link.href = 'http://www.crunchyroll.com/search?q='+encodeURIComponent(itemTitle)+'&o='+malType;
+		$link.href = 'https://www.crunchyroll.com/search?q='+encodeURIComponent(itemTitle)+'&o='+malType;
 		$link.setAttribute('data-jp-href',$link.href);
 		if(itemENtitle){
-			$link.setAttribute('data-en-href','http://www.crunchyroll.com/search?q='+encodeURIComponent(itemENtitle)+'&o='+malType);
+			$link.setAttribute('data-en-href','https://www.crunchyroll.com/search?q='+encodeURIComponent(itemENtitle)+'&o='+malType);
 		}
 		$link.target = '_blank';
 		$link.title = 'Search Crunchyroll for - '+itemTitle;
@@ -324,11 +326,13 @@ function setSingle(){
 			}else{
 				this.href = this.getAttribute('data-jp-href');
 			}
+			/*
 			if(settings.malLightbox && lightboxReady){
 				e.preventDefault();
 					toggleLightbox(this.href);
 				return false;
 			}
+			*/
 		});
 
 	container.classList.add('mcl-link-container');
@@ -353,7 +357,7 @@ function getENtitle(malURL){
 					}
 				}
 			}
-			var url = 'http://www.crunchyroll.com/search?q='+encodeURIComponent(itemTitle)+'&o='+malType;
+			var url = 'https://www.crunchyroll.com/search?q='+encodeURIComponent(itemTitle)+'&o='+malType;
 			toggleLightbox(url);
 		}else if(xhttp.status == 404){
 			toggleLightbox(crFallbackURL);
@@ -394,28 +398,20 @@ function modifySearchInIframe(){
 
 	/* Enlarge images */
 	for(var i=0; i<images.length; i++){
-		var imgSrc = images[i].src;
-		var imgDataSrc = images[i].getAttribute('data-src');
+		var imgSrc = images[i].getAttribute('data-src');
 		var imgOriginalSrc;
 
-		if(imgSrc.indexOf('/r/') != -1 || imgDataSrc.indexOf('/r/') != -1){
-			if(imgSrc.indexOf('spacer.gif') != -1){
-				imgSrc = imgDataSrc;
-			}
+		if(imgSrc.indexOf('/r/') != -1){
+			imgOriginalSrc = imgSrc;
 			imgSrc = imgSrc.split('/r/');
 			imgSrc = imgSrc[0]+'/images/'+imgSrc[1].split('/images/')[1];
-
-			if(imgDataSrc.indexOf('/r/') != -1){
-				imgOriginalSrc = imgDataSrc;
-			}else{
-				imgOriginalSrc = imgSrc;
-			}
 		}
 
 		images[i].setAttribute('data-small',imgOriginalSrc);
 		images[i].setAttribute('data-big',imgSrc);
 		images[i].setAttribute('data-src',imgSrc);
-		images[i].setAttribute('data-srcset',imgSrc+' 1x,'+imgSrc+' 2x');
+		images[i].removeAttribute('data-srcset');
+		images[i].removeAttribute('srcset');
 		images[i].src = imgSrc;
 	}
 }
